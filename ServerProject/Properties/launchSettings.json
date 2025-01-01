@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Windows Server": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\gcsho\\Documents\\Repos\\evilfactory\\LuaCsForBarotrauma\\Barotrauma\\bin\\DebugWindows\\net6.0\\DedicatedServer.exe"
+    }
+  }
+}
