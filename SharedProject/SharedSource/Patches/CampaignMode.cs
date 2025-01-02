@@ -12,6 +12,7 @@ class CampaignMode_DoCharacterWait {
 		__result = GetCoroutine(__instance, npc, interactor);
 		return false;
 	}
+
 	public static IEnumerable<CoroutineStatus> GetCoroutine(CampaignMode __instance, Character npc, Character interactor) {
 		// Original function with one line changed.
 
