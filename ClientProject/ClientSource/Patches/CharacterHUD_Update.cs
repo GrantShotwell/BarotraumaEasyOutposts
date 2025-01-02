@@ -39,7 +39,8 @@ class CharacterHUD_Update {
 					}
 					var identifier = $"CampaignInteractionIcon.{interactionType}".ToIdentifier();
 					if (CursorOverInteractionIcon(npc, identifier)) {
-						ModUtils.Logging.PrintMessage($"Clicked on {npc.Name}!");
+						character.FocusedCharacter = npc;
+						Character_DoInteractionUpdate.OverrideFocusedCharacter = (character, npc);
 					}
 				}
 			}

@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
-  <Import Project="../Build.props"/>
+  <Import Project="../Build.props" />
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DefineConstants>TRACETRACE;SERVER;WINDOWS</DefineConstants>
@@ -24,6 +24,9 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\Refs\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="BarotraumaCore">
+      <HintPath>D:\SteamLibrary\steamapps\common\Barotrauma\BarotraumaCore.dll</HintPath>
     </Reference>
     <Reference Include="DedicatedServer">
       <HintPath>..\Refs\Windows\DedicatedServer.dll</HintPath>

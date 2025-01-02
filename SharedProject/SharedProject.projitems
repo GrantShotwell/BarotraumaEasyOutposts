@@ -9,6 +9,8 @@
     <Import_RootNamespace>SharedProject</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)SharedSource\Patches\CampaignMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedSource\Patches\Character.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SharedSource\Plugin.cs" />
   </ItemGroup>
 </Project>
