@@ -43,8 +43,11 @@ class Character_DoInteractionUpdate {
 			TryGetOverrideFocusedCharacter(out var character, out var clicked)
 			&& character == __instance
 		) {
+			// Undo unsetting focused character because they are not visible.
 			__instance.FocusedCharacter = clicked;
-			if (__instance.IsKeyHit(InputType.Left) && clicked.AllowCustomInteract) {
+			// I intended this to open the menu immediately on click,
+			// but this acts as a double-click instead for some reason. I like that better!
+			if (__instance.IsKeyHit(InputType.Select) && clicked.AllowCustomInteract) {
 				clicked.onCustomInteract?.Invoke(clicked, __instance);
 			}
 		}

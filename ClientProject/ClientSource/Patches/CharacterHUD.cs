@@ -7,9 +7,16 @@ namespace BarotraumaAsphyxia.Patches;
 [HarmonyPatch(typeof(CharacterHUD), nameof(CharacterHUD.Update))]
 class CharacterHUD_Update {
 
+	public static bool CanFocus(Character character) {
+		return !character.DisableFocusingOnEntities
+			&& !character.IsIncapacitated
+			&& character.Stun <= 0f
+			&& !Character.IsMouseOnUI;
+	}
+
 	public static void Postfix(float deltaTime, Character character, Camera cam) {
 		try {
-			if (PlayerInput.PrimaryMouseButtonClicked()) {
+			if (CanFocus(character) && PlayerInput.PrimaryMouseButtonClicked()) {
 				// Find out if mouse is hovering over campaign interaction icon.
 				// See local function: CharacterHUD.Draw(SpriteBatch, Character, Camera) -> DrawInteractionIcon(Entity, Identifier)
 				bool CursorOverInteractionIcon(Entity entity, Identifier style) {
@@ -32,6 +39,7 @@ class CharacterHUD_Update {
 					float distance = Vector2.Distance(PlayerInput.MousePosition, iconPosition);
 					return distance < sprite.size.X * symbolScale;
 				}
+				bool focusedSomething = false;
 				foreach (var npc in Character.CharacterList) {
 					var interactionType = npc.CampaignInteractionType;
 					if (interactionType == CampaignMode.InteractionType.None) {
@@ -41,7 +49,11 @@ class CharacterHUD_Update {
 					if (CursorOverInteractionIcon(npc, identifier)) {
 						character.FocusedCharacter = npc;
 						Character_DoInteractionUpdate.OverrideFocusedCharacter = (character, npc);
+						focusedSomething = true;
 					}
+				}
+				if (!focusedSomething) {
+					Character_DoInteractionUpdate.OverrideFocusedCharacter = null;
 				}
 			}
 		} catch (Exception exception) {
