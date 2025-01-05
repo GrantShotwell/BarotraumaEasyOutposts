@@ -1,12 +1,11 @@
 ﻿using Barotrauma;
-using BarotraumaAsphyxia.Patches;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 
 namespace BarotraumaEasyOutposts.Patches;
 
 [HarmonyPatch(typeof(CampaignMode), nameof(CampaignMode.DoCharacterWait))]
-class CampaignMode_DoCharacterWait {
+partial class CampaignMode_DoCharacterWait {
 
 	public static bool Prefix(CampaignMode __instance, ref IEnumerable<CoroutineStatus> __result, Character npc, Character interactor) {
 		__result = GetCoroutine(__instance, npc, interactor);
@@ -35,9 +34,7 @@ class CampaignMode_DoCharacterWait {
 		while (
 			!npc.Removed && !interactor.Removed &&
 			( // This was changed to not unfocus when forced.
-				Character_DoInteractionUpdate.TryGetOverrideFocusedCharacter(out var character, out var clicked) &&
-				character == interactor &&
-				clicked == npc ||
+				ForcedFocusManager.TryGetForcedFocus(interactor, out var focused) && npc == focused ||
 				Vector2.DistanceSquared(npc.WorldPosition, interactor.WorldPosition) < 300.0f * 300.0f
 			) &&
 			humanAI.ObjectiveManager.ForcedOrder == waitObjective &&

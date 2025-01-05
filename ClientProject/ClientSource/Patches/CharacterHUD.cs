@@ -2,7 +2,7 @@
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 
-namespace BarotraumaAsphyxia.Patches;
+namespace BarotraumaEasyOutposts.Patches;
 
 [HarmonyPatch(typeof(CharacterHUD), nameof(CharacterHUD.Update))]
 class CharacterHUD_Update {
@@ -47,14 +47,15 @@ class CharacterHUD_Update {
 					}
 					var identifier = $"CampaignInteractionIcon.{interactionType}".ToIdentifier();
 					if (CursorOverInteractionIcon(npc, identifier)) {
-						character.FocusedCharacter = npc;
-						Character_DoInteractionUpdate.OverrideFocusedCharacter = (character, npc);
+						ForcedFocusManager.SetForcedFocus(character, npc);
 						focusedSomething = true;
 					}
 				}
 				if (!focusedSomething) {
-					Character_DoInteractionUpdate.OverrideFocusedCharacter = null;
+					ForcedFocusManager.SetForcedFocus(character, null);
 				}
+			} else {
+				ForcedFocusManager.UpdateForcedFocus(character);
 			}
 		} catch (Exception exception) {
 			ModUtils.Logging.PrintError(exception.ToString());
